@@ -22,9 +22,11 @@ jobs:
         run: |
           cmake -B build -DCMAKE_BUILD_TYPE=Release -S .
           cmake --build build
-          cmake --install build --prefix ${{ github.workspace }}/qt-example
+          cmake --install build --prefix $PWD/qt-example
+          ldd qt-example/bin/*|grep -iv system32|grep -vi windows|grep -v :$  | cut -f2 -d\> | cut -f1 -d\( | tr '\\' '\/' |while read a; do ! [ -e "qt-example/bin/`basename $a`" ] && cp -v "$a" qt-example/bin/; done
+          ldd qt-example/plugins/*/*|grep -iv system32|grep -vi windows|grep -v :$  | cut -f2 -d\> | cut -f1 -d\( | tr '\\' '\/' |while read a; do ! [ -e "qt-example/bin/`basename $a`" ] && cp -v "$a" qt-example/bin/; done
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: qt-example-ucrt-x86_64
-          path: ${{ github.workspace }}
+          path: ${{ github.workspace }}/qt-example
