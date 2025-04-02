@@ -1,0 +1,30 @@
+name: MSYS2
+on: [push, pull_request]
+
+jobs:
+  msys2-ucrt64:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            git
+            mingw-w64-ucrt-x86_64-toolchain
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-qt6
+      - name: Build
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -S .
+          cmake --build build
+          cmake --install build --prefix ${{ github.workspace }}/qt-example
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: qt-example-ucrt-x86_64
+          path: ${{ github.workspace }}
