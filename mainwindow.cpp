@@ -2,6 +2,8 @@
 
 #include <QPushButton>
 #include <QStringLiteral>
+#include <QIcon>
+#include <QPixmap>
 
 using namespace Qt::Literals::StringLiterals;
 
