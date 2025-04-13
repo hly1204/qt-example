@@ -14,7 +14,7 @@ qt_add_resources(qt-example "icons"
 
 set_target_properties(qt-example PROPERTIES
     POSITION_INDEPENDENT_CODE True
-    WIN32_EXECUTABLE $<IF:$<CONFIG:Debug>,False,True>
+    WIN32_EXECUTABLE True
     DEBUG_POSTFIX d
     COMPILE_DEFINITIONS_RELEASE QT_NO_DEBUG_OUTPUT
     AUTOMOC ON
@@ -27,7 +27,7 @@ set_target_properties(qt-example PROPERTIES
 
 target_sources(qt-example PRIVATE
     main.cpp
-    mainwindow.cpp
+    main_window.cpp
 )
 
 target_link_libraries(qt-example PRIVATE
