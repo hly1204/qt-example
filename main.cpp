@@ -15,12 +15,13 @@ struct LogToFile
     LogToFile()
     {
         qSetMessagePattern("[%{time yyyyMMdd h:mm:ss.zzz ttt} "
-                           "%{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-"
-                           "critical}C%{endif}%{if-fatal}F%{endif}] "
+                           "%{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}"
+                           "%{if-critical}C%{endif}%{if-fatal}F%{endif}] "
 #if !defined(NDEBUG)
                            "%{file}:%{line} - "
 #endif
                            "%{message}"_L1);
+        // Note that it depends on the working directory
         f_ = std::fopen("log.txt", "a");
         o_ = qInstallMessageHandler(&LogToFile::logToFile);
     }
