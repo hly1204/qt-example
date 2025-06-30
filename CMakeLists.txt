@@ -5,6 +5,9 @@ project(qt-example VERSION 0.0.0.1 LANGUAGES CXX)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Svg)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Enable AUTO_MOC AUTO_UIC AUTO_RCC
+qt_standard_project_setup()
 qt_add_executable(qt-example)
 qt_add_resources(qt-example "icons"
     PREFIX "/icons"
@@ -13,13 +16,10 @@ qt_add_resources(qt-example "icons"
 )
 
 set_target_properties(qt-example PROPERTIES
-    POSITION_INDEPENDENT_CODE True
-    WIN32_EXECUTABLE True
+    POSITION_INDEPENDENT_CODE ON
+    WIN32_EXECUTABLE ON
     DEBUG_POSTFIX d
     COMPILE_DEFINITIONS_RELEASE QT_NO_DEBUG_OUTPUT
-    AUTOMOC ON
-    AUTOUIC ON
-    AUTORCC ON
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF

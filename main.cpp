@@ -5,6 +5,7 @@
 #include <QStringLiteral>
 #include <QtLogging>
 #include <QString>
+#include <QLibraryInfo>
 #include <cstdio>
 
 using namespace Qt::Literals::StringLiterals;
@@ -36,8 +37,9 @@ struct LogToFile
         std::fprintf(f_, "%s\n", qPrintable(message));
         std::fflush(f_);
 
-        if (o_)
+        if (o_) {
             (*o_)(type, context, msg);
+        }
     }
 
     static inline QtMessageHandler o_;
@@ -49,10 +51,10 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QTranslator t;
-    if (t.load(QLocale(), "qt"_L1, "_"_L1, "../translations"_L1)) {
+    if (t.load(QLocale(), "qt"_L1, "_"_L1, QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
         app.installTranslator(&t);
     } else {
-        qWarning("Error when loading translator");
+        qWarning("Failed to load translator");
     }
 
     MainWindow win;
