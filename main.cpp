@@ -47,7 +47,7 @@ struct LogToFile
 
     static inline QtMessageHandler o_;
     static inline std::FILE *f_;
-} [[maybe_unused]] _init;
+} _init [[maybe_unused]];
 
 } // namespace
 
