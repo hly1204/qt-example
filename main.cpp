@@ -1,14 +1,16 @@
-#include "main_window.h"
-
 #include <QApplication>
 #include <QTranslator>
-#include <QStringLiteral>
 #include <QtLogging>
 #include <QString>
 #include <QLibraryInfo>
+
 #include <cstdio>
 
+#include "main_window.h"
+
 using namespace Qt::Literals::StringLiterals;
+
+namespace {
 
 struct LogToFile
 {
@@ -45,7 +47,9 @@ struct LogToFile
 
     static inline QtMessageHandler o_;
     static inline std::FILE *f_;
-} _init;
+} [[maybe_unused]] _init;
+
+} // namespace
 
 int main(int argc, char *argv[])
 {
@@ -53,7 +57,7 @@ int main(int argc, char *argv[])
 
     QTranslator t;
     if (t.load(QLocale(), "qt"_L1, "_"_L1, QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
-        app.installTranslator(&t);
+        QCoreApplication::installTranslator(&t);
     } else {
         qWarning("Failed to load translator");
     }
@@ -61,5 +65,5 @@ int main(int argc, char *argv[])
     MainWindow win;
     win.show();
 
-    return app.exec();
+    return QApplication::exec();
 }
