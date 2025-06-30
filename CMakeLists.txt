@@ -25,6 +25,11 @@ set_target_properties(qt-example PROPERTIES
     CXX_EXTENSIONS OFF
 )
 
+target_compile_options(qt-example PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+)
+
 target_sources(qt-example PRIVATE
     main.cpp
     main_window.cpp
